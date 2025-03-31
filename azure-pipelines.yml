@@ -17,7 +17,7 @@ steps:
 
 - script: |
     sudo apt-get update
-    sudo-apt get install -y python2
+    sudo apt-get install -y python2
   displayName: 'install python 2'
   
 - script: |
