@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  reverse-proxy:
+    image: traefik:v2.5
+    ports:
+      - "8081:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    networks:
+      - us-network
+      - eu-network
+
+networks:
+  us-network:
+    driver: bridge
+  eu-network:
+    driver: bridge

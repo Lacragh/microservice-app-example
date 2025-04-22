@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  auth-api-us:
+    build: ./auth-api
+    ports:
+      - "8000:8000"
+    environment:
+      - AUTH_API_PORT=8000
+      - USERS_API_ADDRESS=http://users-api-us:8083
+      - JWT_SECRET=PRFT
+    networks:
+      - us-network
+
+  users-api-us:
+    build: ./users-api
+    ports:
+      - "8083:8083"
+    environment:
+      - JWT_SECRET=PRFT
+      - SERVER_PORT=8083
+    networks:
+      - us-network
+
+  log-message-processor-us:
+    build: ./log-message-processor
+    environment:
+      - REDIS_HOST=redis-us
+      - REDIS_PORT=6379
+      - REDIS_CHANNEL=log_channel
+    depends_on:
+      - redis-us
+    networks:
+      - us-network
+
+  todos-api-us:
+    build: ./todos-api
+    ports:
+      - "8082:8082"
+    environment:
+      - TODO_API_PORT=8082
+      - JWT_SECRET=PRFT
+      - REDIS_HOST=redis-us
+      - REDIS_PORT=6379
+      - REDIS_CHANNEL=log_channel
+    depends_on:
+      - redis-us
+    networks:
+      - us-network
+
+  frontend-us:
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - AUTH_API_ADDRESS=http://auth-api-us:8000
+      - TODOS_API_ADDRESS=http://todos-api-us:8082
+    networks:
+      - us-network
+    labels:
+      - "traefik.http.routers.frontend-us.rule=PathPrefix(`/us`)"
+      - "traefik.http.services.frontend-us.loadbalancer.server.port=8080"
+  redis-us:
+    image: redis:7.0
+    ports:
+      - "6379:6379"
+    networks:
+      - us-network
+
+networks:
+  us-network:
+    driver: bridge
+  
