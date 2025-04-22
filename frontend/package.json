@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "chalk": "^5.0.0",
+    "chalk": "^4.1.2",
     "bootstrap-vue": "^0.22.1",
     "jwt-decode": "^2.2.0",
     "vue": "^2.3.3",
