@@ -31,7 +31,7 @@ jobs:
       - name: Deploy frontend
         run: |
           gcloud run deploy frontend \
-            --image=docker.io/luischarria11/frontend:latest \
+            --image=docker.io/lacragh/frontend:latest \
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
@@ -40,7 +40,7 @@ jobs:
       - name: Deploy auth-api
         run: |
           gcloud run deploy auth-api \
-            --image=docker.io/luischarria11/auth-api \
+            --image=docker.io/lacragh/auth-api \
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
@@ -49,7 +49,7 @@ jobs:
       - name: Deploy users-api
         run: |
           gcloud run deploy users-api \
-            --image=docker.io/luischarria11/users-api \
+            --image=docker.io/lacragh/users-api \
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
@@ -58,7 +58,7 @@ jobs:
       - name: Deploy todos-api
         run: |
           gcloud run deploy todos-api \
-            --image=docker.io/luischarria11/todos-api \
+            --image=docker.io/lacragh/todos-api \
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
