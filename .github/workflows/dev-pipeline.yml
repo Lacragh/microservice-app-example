@@ -24,28 +24,28 @@ jobs:
     - name: Set up DockerHub Login
       uses: docker/login-action@v2
       with:
-        username: luischarria11
-        password: docker123
+        username: lacragh
+        password: victor9043
 
     - name: Build auth-api
       run: |
-        docker build -t luischarria11/auth-api ./auth-api
+        docker build -t lacragh/auth-api ./auth-api
 
     - name: Build users-api
       run: |
-        docker build -t luischarria11/users-api ./users-api
+        docker build -t lacragh/users-api ./users-api
 
     - name: Build todos-api
       run: |
-        docker build -t luischarria11/todos-api ./todos-api
+        docker build -t lacragh/todos-api ./todos-api
 
     - name: Build frontend
       run: |
-        docker build -t luischarria11/frontend ./frontend
+        docker build -t lacragh/frontend ./frontend
 
     - name: Push Docker images
       run: |
-        docker push luischarria11/auth-api
-        docker push luischarria11/users-api
-        docker push luischarria11/todos-api
-        docker push luischarria11/frontend
+        docker push lacragh/auth-api
+        docker push lacragh/users-api
+        docker push lacragh/todos-api
+        docker push lacragh/frontend
