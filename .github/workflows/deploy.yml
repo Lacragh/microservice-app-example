@@ -29,7 +29,15 @@ jobs:
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           export_default_credentials: true
     
-        
+      - name: Deploy frontend
+        run: |
+          gcloud run deploy frontend \
+            --image=docker.io/luischarria11/frontend \
+            --platform=managed \
+            --region=${{ secrets.GCP_REGION }} \
+            --allow-unauthenticated \
+            --set-env-vars=AUTH_API_ADDRESS=https://TEMP,TODOS_API_ADDRESS=https://TEMP
+            
       - name: Deploy auth-api
         run: |
           gcloud run deploy auth-api \
@@ -37,7 +45,7 @@ jobs:
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
-            --set-env-vars=AUTH_API_PORT=8000,USERS_API_ADDRESS=https://TEMP,JWT_SECRET=PRFT,PORT=8000
+            --set-env-vars=AUTH_API_PORT=8000,USERS_API_ADDRESS=https://TEMP,JWT_SECRET=PRFT
 
       - name: Deploy users-api
         run: |
@@ -46,7 +54,7 @@ jobs:
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
-            --set-env-vars=SERVER_PORT=8083,JWT_SECRET=PRFT,PORT=8083
+            --set-env-vars=SERVER_PORT=8083,JWT_SECRET=PRFT
 
       - name: Deploy todos-api
         run: |
@@ -55,13 +63,6 @@ jobs:
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
-            --set-env-vars=TODO_API_PORT=8082,JWT_SECRET=PRFT,REDIS_HOST=redis,REDIS_PORT=6379,REDIS_CHANNEL=log_channel,PORT=8082
+            --set-env-vars=TODO_API_PORT=8082,JWT_SECRET=PRFT,REDIS_HOST=redis,REDIS_PORT=6379,REDIS_CHANNEL=log_channel
 
-      - name: Deploy frontend
-        run: |
-          gcloud run deploy frontend \
-            --image=docker.io/luischarria11/frontend \
-            --platform=managed \
-            --region=${{ secrets.GCP_REGION }} \
-            --allow-unauthenticated \
-            --set-env-vars=PORT=8080,AUTH_API_ADDRESS=https://TEMP,TODOS_API_ADDRESS=https://TEMP
+      
