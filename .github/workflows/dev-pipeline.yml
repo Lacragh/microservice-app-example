@@ -43,6 +43,10 @@ jobs:
       run: |
         docker build -t lacragh/frontend ./frontend
 
+    - name: Build log-processor
+      run: |
+        docker build -t lacragh/log-processor ./log-mesagge-processor
+
     - name: Push Docker images
       run: |
         docker push lacragh/auth-api
