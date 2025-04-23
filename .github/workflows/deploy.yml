@@ -1,0 +1,54 @@
+name: Deploy to Cloud Run
+
+on:
+  workflow_dispatch: # solo se ejecuta manualmente desde GitHub Actions
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          export_default_credentials: true
+
+      - name: Deploy auth-api
+        run: |
+          gcloud run deploy auth-api \
+            --image=docker.io/luischarria11/auth-api \
+            --platform=managed \
+            --region=${{ secrets.GCP_REGION }} \
+            --allow-unauthenticated \
+            --set-env-vars=AUTH_API_PORT=8000,USERS_API_ADDRESS=https://TEMP,JWT_SECRET=PRFT
+
+      - name: Deploy users-api
+        run: |
+          gcloud run deploy users-api \
+            --image=docker.io/luischarria11/users-api \
+            --platform=managed \
+            --region=${{ secrets.GCP_REGION }} \
+            --allow-unauthenticated \
+            --set-env-vars=SERVER_PORT=8083,JWT_SECRET=PRFT
+
+      - name: Deploy todos-api
+        run: |
+          gcloud run deploy todos-api \
+            --image=docker.io/luischarria11/todos-api \
+            --platform=managed \
+            --region=${{ secrets.GCP_REGION }} \
+            --allow-unauthenticated \
+            --set-env-vars=TODO_API_PORT=8082,JWT_SECRET=PRFT,REDIS_HOST=redis,REDIS_PORT=6379,REDIS_CHANNEL=log_channel
+
+      - name: Deploy frontend
+        run: |
+          gcloud run deploy frontend \
+            --image=docker.io/luischarria11/frontend \
+            --platform=managed \
+            --region=${{ secrets.GCP_REGION }} \
+            --allow-unauthenticated \
+            --set-env-vars=PORT=8080,AUTH_API_ADDRESS=https://TEMP,TODOS_API_ADDRESS=https://TEMP
