@@ -35,7 +35,7 @@ jobs:
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
-            --set-env-vars=AUTH_API_ADDRESS=https://auth-api-723513097720.us-central1.run.app,TODOS_API_ADDRESS=https://TEMP
+            --set-env-vars=AUTH_API_ADDRESS=https://auth-api-723513097720.us-central1.run.app,TODOS_API_ADDRESS=https://todos-api-723513097720.us-central1.run.app
             
       - name: Deploy auth-api
         run: |
@@ -44,7 +44,7 @@ jobs:
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
-            --set-env-vars=AUTH_API_PORT=8000,USERS_API_ADDRESS=https://TEMP,JWT_SECRET=PRFT
+            --set-env-vars=AUTH_API_PORT=8000,USERS_API_ADDRESS=https://users-api-723513097720.us-central1.run.app,JWT_SECRET=PRFT
 
       - name: Deploy users-api
         run: |
