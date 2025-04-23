@@ -21,7 +21,6 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           install_components: 'gcloud'
       
-      
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
@@ -36,7 +35,7 @@ jobs:
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
-            --set-env-vars=AUTH_API_ADDRESS=https://TEMP,TODOS_API_ADDRESS=https://TEMP
+            --set-env-vars=AUTH_API_ADDRESS=https://auth-api-723513097720.us-central1.run.app,TODOS_API_ADDRESS=https://TEMP
             
       - name: Deploy auth-api
         run: |
