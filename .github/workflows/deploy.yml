@@ -27,12 +27,15 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           export_default_credentials: true
-    
+      - name: Generar revision-suffix único
+        id: revision
+        run: echo "REV_SUFFIX=rev-$(date +%s)" >> $GITHUB_ENV
+
       - name: Deploy frontend
         run: |
           gcloud run deploy frontend \
             --image=docker.io/lacragh/frontend:latest \
-            --revision-suffix="$(date +%s) \
+             --revision-suffix="$REV_SUFFIX" \
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
