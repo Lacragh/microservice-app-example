@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/login': {
-        target: 'https://auth-api-111693207847.us-central1.run.app',
+        target: process.env.AUTH_API_ADDRESS || 'https://auth-api-111693207847.us-central1.run.app',
         secure: false
       },
       '/todos': {

@@ -81,7 +81,7 @@ export default {
     doLogin: function () {
       this.loggingIn = true
       this.errorMessage = ''
-
+      console.log(process.env.AUTH_API_ADDRESS)
       const credentials = {
         username: this.credentials.username,
         password: this.credentials.password
