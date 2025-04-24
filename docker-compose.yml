@@ -66,6 +66,13 @@ services:
     networks:
       - msa-network
 
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - msa-network
+
   gateway:
     image: nginx:latest
     ports:
