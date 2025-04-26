@@ -45,7 +45,8 @@ const recorder = new  BatchRecorder({
 const localServiceName = 'todos-api';
 const tracer = new Tracer({ctxImpl, recorder, localServiceName});
 
-
+app.options('*', cors());
+app.use(cors());
 app.use(jwt({ secret: jwtSecret }))
 app.use(zipkinMiddleware({tracer}));
 app.use(function (err, req, res, next) {
