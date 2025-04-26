@@ -2,6 +2,7 @@
 const express = require('express')
 const bodyParser = require("body-parser")
 const jwt = require('express-jwt')
+const cors = require('cors'); // <-- Esta línea FALTABA
 
 const ZIPKIN_URL = 'https://zipkin-111693207847.us-central1.run.app/api/v2/spans';
 const {Tracer, 
