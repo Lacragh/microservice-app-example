@@ -47,12 +47,23 @@ const localServiceName = 'todos-api';
 const tracer = new Tracer({ctxImpl, recorder, localServiceName});
 
 const corsOptions = {
-  origin: '*', // ⚡ O pon tu frontend específico
+  origin: 'https://frontend-111693207847.us-central1.run.app', // o tu dominio real
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'x-b3-traceid',
+    'x-b3-spanid',
+    'x-b3-parentspanid',
+    'x-b3-sampled',
+    'x-b3-flags',
+    'x-request-id'
+  ]
 };
+
 app.options('*', cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
+
 app.use(jwt({ secret: jwtSecret }))
 app.use(zipkinMiddleware({tracer}));
 app.use(function (err, req, res, next) {
